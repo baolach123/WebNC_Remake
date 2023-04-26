@@ -1,0 +1,32 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using TatBlog.Core.Entities;
+
+namespace TatBlog.Services.Blogs
+{ 
+    //Interface cho class truy vấn dữ liệu
+    public interface IBlogRepository
+    {
+        //Tìm bài viết theo slug, tháng, năm (đăng bài)
+        Task<Post> GetPostBySlugMonthYearAsync(// Nhớ thêm Async vì là hàm bất đồng bộ
+            int year, int month, string slug, CancellationToken cancellationToken = default);
+
+        //Lấy n post có nhiều lượt xem nhất
+        Task<IList<Post>> GetPostsMostWatch(// Nhớ thêm Async vì là hàm bất đồng bộ
+            int viewNumber, CancellationToken cancellationToken = default);
+
+        //ktra post đã có slug hay chưa
+        // Nhớ thêm Async vì là hàm bất đồng bộ
+        Task<bool> IsHasSlugInPost(int postId, string slug, CancellationToken cancellationToken = default);
+
+
+        //Tăng số lượt xem của post
+        //Hàm này sẽ không trả về gì cả
+        Task IncreaseViewCountAsync(int  postId, CancellationToken cancellationToken = default);
+
+
+    }
+}
