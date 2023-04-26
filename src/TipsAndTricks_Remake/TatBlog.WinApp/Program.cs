@@ -4,7 +4,7 @@ using TatBlog.Data.Seeders;
 //Tạo đối tượng DBContext để quản lý phiên làm việc với db và trạng thái của các đối tượng
 var context = new BlogDbContext();
 
-//Đối tượng khởi tạo dữ liệu mẫu
+//Đối tượng khởi tạo dữ liệu mẫuu
  var seeder = new DataSeeder(context);
 
 //Gọi hàm khởi tạo (initialize) để nhập dữ liệu mẫu
