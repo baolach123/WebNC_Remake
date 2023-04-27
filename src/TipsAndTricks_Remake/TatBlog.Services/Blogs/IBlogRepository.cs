@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TatBlog.Core.Contracts;
+using TatBlog.Core.DTO;
 using TatBlog.Core.Entities;
 
 namespace TatBlog.Services.Blogs
@@ -27,6 +30,13 @@ namespace TatBlog.Services.Blogs
         //Hàm này sẽ không trả về gì cả
         Task IncreaseViewCountAsync(int  postId, CancellationToken cancellationToken = default);
 
+
+        //Lấy list category và đếm số bài viết trong category
+        Task<IList<CategoryItem>> GetCategoriesAsync(bool showOnMenu=false
+            ,CancellationToken cancellationToken = default);
+        
+        Task<IPagedList<TagItem>> GetPagedTagsAsync(
+            IPagingParams pagingParams, CancellationToken cancellationToken = default);
 
     }
 }

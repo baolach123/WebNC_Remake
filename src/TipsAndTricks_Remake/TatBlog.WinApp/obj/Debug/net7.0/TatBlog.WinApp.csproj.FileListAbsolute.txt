@@ -72,3 +72,4 @@ C:\Users\acer\Du\WorkSpace\WebNC_Remake\src\TipsAndTricks_Remake\TatBlog.WinApp\
 C:\Users\acer\Du\WorkSpace\WebNC_Remake\src\TipsAndTricks_Remake\TatBlog.WinApp\obj\Debug\net7.0\TatBlog.WinApp.pdb
 C:\Users\acer\Du\WorkSpace\WebNC_Remake\src\TipsAndTricks_Remake\TatBlog.WinApp\obj\Debug\net7.0\TatBlog.WinApp.genruntimeconfig.cache
 C:\Users\acer\Du\WorkSpace\WebNC_Remake\src\TipsAndTricks_Remake\TatBlog.WinApp\obj\Debug\net7.0\ref\TatBlog.WinApp.dll
+C:\Users\acer\Du\WorkSpace\WebNC_Remake\src\TipsAndTricks_Remake\TatBlog.WinApp\bin\Debug\net7.0\System.Linq.Dynamic.Core.dll

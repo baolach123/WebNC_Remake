@@ -4,8 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TatBlog.Core.Contracts;
+using TatBlog.Core.DTO;
 using TatBlog.Core.Entities;
 using TatBlog.Data.Contexts;
+using TatBlog.Services.Extentions;
 
 namespace TatBlog.Services.Blogs
 {
@@ -19,7 +22,47 @@ namespace TatBlog.Services.Blogs
         {
             this.dbContext = dbContext;
         }
-        
+
+
+        //Lấy list chuyên mục và số lượng bài viết
+        public async Task<IList<CategoryItem>> GetCategoriesAsync(bool showOnMenu = false, CancellationToken cancellationToken = default)
+        {
+            IQueryable<Category> categories = dbContext.Set<Category>();
+
+            //Ktra showOnMenu=false hay khong 
+            if(showOnMenu)
+            {
+                categories=categories.Where(i=>i.ShowOnMenu);
+            }
+
+            return await categories
+                .OrderBy(i=>i.Name)
+                .Select(i=> new CategoryItem()
+                {
+                    Id = i.Id,
+                    Name = i.Name,
+                    UrlSlug = i.UrlSlug,
+                    Description = i.Description,
+                    ShowOnMenu = i.ShowOnMenu,
+                    PostCount = i.Posts.Count(p=>p.IsPublished)
+                }).ToListAsync(cancellationToken);
+        }
+
+        public Task<IPagedList<TagItem>> GetPagedTagsAsync(IPagingParams pagingParams, CancellationToken cancellationToken = default)
+        {
+            var tagQuery = dbContext.Set<Tag>()
+                .Select(i => new TagItem()
+                {
+                    Id =i.Id,
+                    Name = i.Name,
+                    UrlSlug = i.UrlSlug,
+                    Description = i.Description,
+                    PostCount = i.Posts.Count(p=> p.IsPublished)
+                });
+
+            return tagQuery.ToPagedListAsync(pagingParams,cancellationToken);
+        }
+
 
         //Cài đặt phương thức 
 
