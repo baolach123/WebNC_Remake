@@ -18,7 +18,7 @@ namespace TatBlog.Services.Blogs
             int year, int month, string slug, CancellationToken cancellationToken = default);
 
         //Lấy n post có nhiều lượt xem nhất
-        Task<IList<Post>> GetPostsMostWatch(// Nhớ thêm Async vì là hàm bất đồng bộ
+        Task<IList<Post>> GetPostsMostWatchAsync(// Nhớ thêm Async vì là hàm bất đồng bộ
             int viewNumber, CancellationToken cancellationToken = default);
 
         //ktra post đã có slug hay chưa
@@ -48,6 +48,17 @@ namespace TatBlog.Services.Blogs
 
         //Xoa mot ma theo the cho truoc
         Task DeleteTagById(int id, CancellationToken cancellationToken = default);
+
+
+        //Lay category theo urlslug
+        Task<Category> GetCategoryBySlugAsync(string slug, CancellationToken cancellationToken = default);
+
+        //lay category theo id
+        Task<Category> GetCategoryByIdAsync(int id, CancellationToken cancellationToken = default);
+
+        //add or update category
+        //Task AddOrUpdateCategory(Category category,CancellationToken cancellationToken = default);
+        Task<Category> RemoveCategoryById(int id, CancellationToken cancellationToken = default);
 
     }
 }

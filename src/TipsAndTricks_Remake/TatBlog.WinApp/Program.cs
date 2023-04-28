@@ -1,4 +1,5 @@
-﻿using TatBlog.Core.Entities;
+﻿using System.Runtime.InteropServices;
+using TatBlog.Core.Entities;
 using TatBlog.Data.Contexts;
 using TatBlog.Data.Seeders;
 using TatBlog.Services.Blogs;
@@ -85,7 +86,7 @@ Console.WriteLine("{0,-25}{1,-50}{2,-50}", postsMYS.Title, postsMYS.Meta, postsM
 
 
 //Lấy n post nhiều view nhất
-var listPost = await repository.GetPostsMostWatch(2);
+var listPost = await repository.GetPostsMostWatchAsync(2);
 foreach (var post in listPost)
 {
     Console.WriteLine("ID               : {0}", post.Id);
@@ -116,7 +117,7 @@ foreach (var category in listCategories)
 
 //lấy 1 tag theo tên định danh
 
-var oneTag = await repository.GetTagBySlugAsync("ngon-ngu");
+var oneTag = await repository.GetTagBySlugAsync("frame-work");
 Console.WriteLine("tag duoc lay ra la {0}", oneTag.Name);
 
 
@@ -128,3 +129,11 @@ foreach (var tag in tagListPost)
 {
     Console.WriteLine("Tag: {0} so luong post chua tag nay la {1}", tag.Name, tag.PostCount);
 }
+
+//lay category theo slug    
+var cateBySlug = await repository.GetCategoryBySlugAsync("ngon-ngu-CSharp");
+Console.WriteLine("category {0} theo slug: {1}", cateBySlug.UrlSlug, cateBySlug.Name);
+
+//lay tag theo id
+var cateById = await repository.GetCategoryByIdAsync(1);
+Console.WriteLine("category theo id {0} la: {1}", cateById.Id, cateById.Name);

@@ -18,6 +18,7 @@ namespace TatBlog.Services.Blogs
     {
         //Cài đặt phương thức khởi tạo
         private readonly BlogDbContext _dbContext;
+        
 
         public BlogRepository(BlogDbContext dbContext)
         {
@@ -109,7 +110,7 @@ namespace TatBlog.Services.Blogs
 
 
         //Tim n bai post nhieu viewcount nhat
-        public async Task<IList<Post>> GetPostsMostWatch(int viewNumber, CancellationToken cancellationToken = default)
+        public async Task<IList<Post>> GetPostsMostWatchAsync(int viewNumber, CancellationToken cancellationToken = default)
         {
             return await _dbContext.Set<Post>()
                 .Include(p => p.Author)
@@ -160,5 +161,37 @@ namespace TatBlog.Services.Blogs
             }
             await Console.Out.WriteLineAsync("da xoa tag");
         }
+
+        public async Task<Category> GetCategoryBySlugAsync(string slug, CancellationToken cancellationToken = default)
+        {
+            return await _dbContext.Set<Category>()
+                .Where(i => i.UrlSlug.Contains(slug))
+                .FirstOrDefaultAsync(cancellationToken);
+        }
+
+        public async Task<Category> GetCategoryByIdAsync(int id, CancellationToken cancellationToken = default)
+        {
+            return await _dbContext.Set<Category>().FindAsync(id,cancellationToken);
+                
+        }
+
+        public async Task<Category> RemoveCategoryById(int id, CancellationToken cancellationToken = default)
+        {
+            return await _dbContext.Set<Category>().FindAsync(id,cancellationToken);
+        }
+
+        //public Task AddOrUpdateCategory(Category category, CancellationToken cancellationToken = default)
+        //{
+        //    if (category.Id > 0)
+        //    {
+        //        _dbContext.Categories.Update(category);
+        //    }
+        //    else
+        //    {
+        //        _dbContext.Categories.Add(category);
+        //    }
+
+        //    return await _dbContext.SaveChangesAsync(category);
+        //}
     }
 }
