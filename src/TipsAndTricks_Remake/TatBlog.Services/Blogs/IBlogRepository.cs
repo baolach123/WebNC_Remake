@@ -35,8 +35,19 @@ namespace TatBlog.Services.Blogs
         Task<IList<CategoryItem>> GetCategoriesAsync(bool showOnMenu=false
             ,CancellationToken cancellationToken = default);
         
+        //Lay list the va phan trang theo pagaingParams
         Task<IPagedList<TagItem>> GetPagedTagsAsync(
             IPagingParams pagingParams, CancellationToken cancellationToken = default);
+
+        //lay the bang slug
+        Task<Tag> GetTagBySlugAsync(
+            string slug, CancellationToken cancellationToken = default);
+
+        //lay danh sach the kem theo so bai viet chua the do
+        Task<IList<TagItem>> GetListTagWithPostCountAsync(CancellationToken cancellationToken = default);
+
+        //Xoa mot ma theo the cho truoc
+        Task DeleteTagById(int id, CancellationToken cancellationToken = default);
 
     }
 }

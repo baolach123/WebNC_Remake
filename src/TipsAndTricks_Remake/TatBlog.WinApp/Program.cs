@@ -112,3 +112,19 @@ foreach (var category in listCategories)
 {
     Console.WriteLine("{0,-20}{1,-4}",category.Name,category.PostCount);
 }
+
+
+//lấy 1 tag theo tên định danh
+
+var oneTag = await repository.GetTagBySlugAsync("ngon-ngu");
+Console.WriteLine("tag duoc lay ra la {0}", oneTag.Name);
+
+
+
+//lay list tag + postcount
+
+var tagListPost = await repository.GetListTagWithPostCountAsync();
+foreach (var tag in tagListPost)
+{
+    Console.WriteLine("Tag: {0} so luong post chua tag nay la {1}", tag.Name, tag.PostCount);
+}

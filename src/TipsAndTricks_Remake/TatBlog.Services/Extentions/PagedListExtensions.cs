@@ -15,8 +15,8 @@ namespace TatBlog.Services.Extentions
         //tao bieu thuc sap xep su dung orderby
 
         public static string GetOrderExpression(
-      this IPagingParams pagingParams,
-      string defaultColumn = "Id")
+            this IPagingParams pagingParams,
+            string defaultColumn = "Id")
         {
             var column = string.IsNullOrWhiteSpace(pagingParams.SortColumn)
                 ? defaultColumn : pagingParams.SortColumn;
