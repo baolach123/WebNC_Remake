@@ -32,11 +32,11 @@ var pagingParams = new PagingParams
 
 var tagList = await repository.GetPagedTagsAsync(pagingParams);
 
-Console.WriteLine("{0,-5}{1,-50}{2,-10}","ID","Name","Count");
+Console.WriteLine("{0,-5}{1,-50}{2,-10}", "ID", "Name", "Count");
 
-foreach(var tag in tagList)
+foreach (var tag in tagList)
 {
-    Console.WriteLine("{0,-5}{1,-50}{2,-10}",tag.Id,tag.Name,tag.PostCount);
+    Console.WriteLine("{0,-5}{1,-50}{2,-10}", tag.Id, tag.Name, tag.PostCount);
 }
 
 //Xuất ra màn hình
@@ -99,20 +99,19 @@ foreach (var post in listPost)
 }
 
 
-var check = repository.IsHasSlugInPost(1, "Chuoi random");
+var check = await repository.IsHasSlugInPost(1, "Chuoi random");
 
-//if(check==true)
-//{
-//    Console.WriteLine("");
-//}
 
 ////Lấy list category và đếm số bài viết trong category
 var listCategories = await repository.GetCategoriesAsync();
 
 foreach (var category in listCategories)
 {
-    Console.WriteLine("{0,-20}{1,-4}",category.Name,category.PostCount);
+    Console.WriteLine("{0,-20}{1,-4}", category.Name, category.PostCount);
 }
+
+
+
 
 
 //lấy 1 tag theo tên định danh
@@ -137,3 +136,13 @@ Console.WriteLine("category {0} theo slug: {1}", cateBySlug.UrlSlug, cateBySlug.
 //lay tag theo id
 var cateById = await repository.GetCategoryByIdAsync(1);
 Console.WriteLine("category theo id {0} la: {1}", cateById.Id, cateById.Name);
+
+var isHaslfug = await repository.IsHasSlugInPost(1, "introduction-apache-maven");
+
+var cateQuery = await repository.GetPagedCategoriesAsync(pagingParams);
+Console.WriteLine("{0,-5}{1,-50}{2,-10}", "ID", "Name", "Count");
+foreach (var category in cateQuery)
+{
+    Console.WriteLine("{0,-5}{1,-50}{2,-10}", category.Id, category.Name, cateQuery.Count);
+}
+

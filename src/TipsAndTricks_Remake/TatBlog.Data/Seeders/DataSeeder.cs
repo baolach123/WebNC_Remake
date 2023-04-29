@@ -26,7 +26,7 @@ namespace TatBlog.Data.Seeders
         public void Initialize()
         {
             _dbContext.Database.EnsureCreated();
-            if (_dbContext.Posts.Any()) return;
+            //if (_dbContext.Posts.Any()) return;
             //ktra db đã có thì không thêm vào
             
             var authors= AddAuthors();
@@ -98,7 +98,13 @@ namespace TatBlog.Data.Seeders
                     JoinedDate= new DateTime(2023,4,1)
                 }
             };
-            _dbContext.Authors.AddRange(authors);
+            foreach (var tag in authors)
+            {
+                if (!_dbContext.Authors.Any(x => x.UrlSlug == tag.UrlSlug))
+                {
+                    _dbContext.Authors.AddRange(authors);
+                }
+            }
             _dbContext.SaveChanges();
             return authors;
         }
@@ -117,7 +123,13 @@ namespace TatBlog.Data.Seeders
                 new (){Name = "Run",Description = "Tinh nang run", UrlSlug = "tinh-nang-run" },
             };
 
-            _dbContext.Categories.AddRange(categories);
+            foreach (var category in categories)
+            {
+                if (!_dbContext.Categories.Any(x => x.UrlSlug == category.UrlSlug))
+                {
+                    _dbContext.Categories.AddRange(categories);
+                }
+            }
             _dbContext.SaveChanges();
 
             return categories;
@@ -135,10 +147,15 @@ namespace TatBlog.Data.Seeders
                 new(){Name="SecClass",Description="Lop thu hai",UrlSlug="lop-thu-hai"},
                 new(){Name="Third",Description="Lop thu ba",UrlSlug="lop-thu-ba"}
             };
-
-            _dbContext.Tags.AddRange(tags);
+            foreach(var tag in tags)
+            {
+                if(!_dbContext.Tags.Any(x=>x.UrlSlug == tag.UrlSlug))
+                {
+                    _dbContext.Tags.AddRange(tags);
+                }
+            }
+            
             _dbContext.SaveChanges();
-
             return tags;
         }  
 
@@ -289,7 +306,13 @@ namespace TatBlog.Data.Seeders
                     }
                 },
             };
-            _dbContext.Posts.AddRange(posts);
+            foreach (var post in posts)
+            {
+                if (!_dbContext.Posts.Any(x => x.UrlSlug == post.UrlSlug))
+                {
+                    _dbContext.Posts.AddRange(posts);
+                }
+            }
             _dbContext.SaveChanges();
 
             return posts;

@@ -15,7 +15,7 @@ namespace TatBlog.Core.Entities
     
     public class Post : IEntity
     {
-        public int Id { get; set; }
+        public int Id { get; set; }//property
 
         public string Title { get; set; }
 
@@ -47,6 +47,5 @@ namespace TatBlog.Core.Entities
 
         public List<Tag> Tags { get; set; }
    
-
     }
 }

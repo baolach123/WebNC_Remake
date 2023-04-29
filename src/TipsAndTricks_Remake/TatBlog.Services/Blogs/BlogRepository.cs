@@ -143,23 +143,19 @@ namespace TatBlog.Services.Blogs
                 .AnyAsync(p=>p.Id!= postId && p.UrlSlug==slug, cancellationToken);
         }
 
-        public async Task DeleteTagById(int id, CancellationToken cancellationToken = default)
+        public async Task<bool> DeleteTagByIdAsync(int id, CancellationToken cancellationToken = default)
         {
-            if( id == null || _dbContext.Tags == null)
-            {
-                Console.WriteLine("Khong co the");
-                return;
-            }
+
 
             var tag = await _dbContext.Set<Tag>().FindAsync(id);
 
             if (tag != null)
             {
-                Tag tagCT = tag;
-                _dbContext.Tags.Remove(tagCT);
-                await _dbContext.SaveChangesAsync(cancellationToken);
+                _dbContext.Tags.Remove(tag);
+                return await _dbContext.SaveChangesAsync(cancellationToken)>0;
             }
-            await Console.Out.WriteLineAsync("da xoa tag");
+
+            return false;            
         }
 
         public async Task<Category> GetCategoryBySlugAsync(string slug, CancellationToken cancellationToken = default)
@@ -175,23 +171,58 @@ namespace TatBlog.Services.Blogs
                 
         }
 
-        public async Task<Category> RemoveCategoryById(int id, CancellationToken cancellationToken = default)
+
+        public async Task<bool> RemoveCategoryByIdAsync(int id, CancellationToken cancellationToken = default)
         {
-            return await _dbContext.Set<Category>().FindAsync(id,cancellationToken);
+            var category = await _dbContext.Set<Category>().FindAsync(id);
+
+            if (category != null)
+            {
+                Category categoryCT = category;
+                _dbContext.Categories.Remove(categoryCT);
+                return await _dbContext.SaveChangesAsync(cancellationToken)>0;
+            }
+            return false;
         }
 
-        //public Task AddOrUpdateCategory(Category category, CancellationToken cancellationToken = default)
-        //{
-        //    if (category.Id > 0)
-        //    {
-        //        _dbContext.Categories.Update(category);
-        //    }
-        //    else
-        //    {
-        //        _dbContext.Categories.Add(category);
-        //    }
+        //
 
-        //    return await _dbContext.SaveChangesAsync(category);
-        //}
+        public async Task<bool> IsSlugCategoryExistAsync(string slug,int id, CancellationToken cancellationToken = default)
+        {
+            return await _dbContext.Set<Category>()
+            .AnyAsync(x => x.Id != id && x.UrlSlug == slug, cancellationToken);
+        }
+
+
+
+        public async Task<bool> AddOrUpdateCategoryAsync(Category category, CancellationToken cancellationToken = default)
+        {
+            //ktra id của cate truyền vào có đã tồn tại hay chưa sau đó nếu đã tồn tại thì sẽ update
+            if (category.Id > 0) 
+            {
+                _dbContext.Categories.Update(category);
+            }
+            else
+            {
+                _dbContext.Categories.Add(category);
+            }
+
+            return await _dbContext.SaveChangesAsync(cancellationToken)>0;
+        }
+
+        public Task<IPagedList<CategoryItem>> GetPagedCategoriesAsync(IPagingParams pagingParams, CancellationToken cancellationToken = default)
+        {
+            var categoriesQuery = _dbContext.Set<Category>()
+               .Select(i => new CategoryItem()
+               {
+                   Id = i.Id,
+                   Name = i.Name,
+                   UrlSlug = i.UrlSlug,
+                   Description = i.Description,
+                   PostCount = i.Posts.Count(p => p.IsPublished)
+               });
+
+            return categoriesQuery.ToPagedListAsync(pagingParams, cancellationToken);
+        }
     }
 }

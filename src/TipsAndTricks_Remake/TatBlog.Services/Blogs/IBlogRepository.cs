@@ -47,7 +47,7 @@ namespace TatBlog.Services.Blogs
         Task<IList<TagItem>> GetListTagWithPostCountAsync(CancellationToken cancellationToken = default);
 
         //Xoa mot ma theo the cho truoc
-        Task DeleteTagById(int id, CancellationToken cancellationToken = default);
+        Task<bool> DeleteTagByIdAsync(int id, CancellationToken cancellationToken = default);
 
 
         //Lay category theo urlslug
@@ -57,8 +57,16 @@ namespace TatBlog.Services.Blogs
         Task<Category> GetCategoryByIdAsync(int id, CancellationToken cancellationToken = default);
 
         //add or update category
-        //Task AddOrUpdateCategory(Category category,CancellationToken cancellationToken = default);
-        Task<Category> RemoveCategoryById(int id, CancellationToken cancellationToken = default);
+        Task<bool> AddOrUpdateCategoryAsync(Category category,CancellationToken cancellationToken = default);
+
+        Task<bool> RemoveCategoryByIdAsync(int id, CancellationToken cancellationToken = default);
+
+        Task<bool> IsSlugCategoryExistAsync(string slug, int id, CancellationToken cancellationToken = default);
+
+        Task<IPagedList<CategoryItem>> GetPagedCategoriesAsync(
+            IPagingParams pagingParams, CancellationToken cancellationToken = default);
+
+
 
     }
 }

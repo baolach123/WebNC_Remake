@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TatBlog.Core.Collections;
 using TatBlog.Core.Contracts;
+using System.Linq.Dynamic.Core;
 
 namespace TatBlog.Services.Extentions
 {
@@ -35,7 +36,7 @@ namespace TatBlog.Services.Extentions
         {
             var totalCount = await source.CountAsync(cancellationToken);
             var items = await source
-                //.OrderBy(pagingParams.GetOrderExpression())
+                .OrderBy(pagingParams.GetOrderExpression())
                 .Skip((pagingParams.PageNumber - 1) * pagingParams.PageSize)
                 .Take(pagingParams.PageSize)
                 .ToListAsync(cancellationToken);
@@ -58,7 +59,7 @@ namespace TatBlog.Services.Extentions
         {
             var totalCount = await source.CountAsync(cancellationToken);
             var items = await source
-                //.OrderBy($"{sortColums} {sortOrder}")
+                .OrderBy($"{sortColums} {sortOrder}")
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync(cancellationToken);
@@ -67,7 +68,4 @@ namespace TatBlog.Services.Extentions
 
         }
     }
-
-
-
 }
